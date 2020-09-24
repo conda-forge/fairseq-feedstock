@@ -31,7 +31,6 @@ requirements:
     - cython
     - setuptools
     - pycparser
-    - python_abi ==3.6
   run:
     - python
     - cffi
