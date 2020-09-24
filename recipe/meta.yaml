@@ -28,7 +28,7 @@ requirements:
     - python
     - pip
     - pytorch >=1.0
-    - cython
+    - cython ==0.27
     - setuptools
     - pycparser
   run:
@@ -38,7 +38,7 @@ requirements:
     - regex
     - sacrebleu
     - pycparser
-    - cython
+    - cython ==0.27
     - pytorch >=1.0
     - tqdm
 
