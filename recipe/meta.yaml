@@ -27,7 +27,7 @@ requirements:
   host:
     - python
     - pip
-    - pytorch
+    - pytorch >=1.0
     - cython
     - setuptools
     - pycparser
@@ -40,13 +40,15 @@ requirements:
     - sacrebleu
     - pycparser
     - cython
-    - pytorch
+    - pytorch >=1.0
     - tqdm
 
 test:
   imports:
-    - examples
-    - examples.noisychannel
+    - fairseq
+    - fairseq.models
+    # - examples
+    # - examples.noisychannel
   commands:
     - fairseq-eval-lm --help
     - fairseq-generate --help
