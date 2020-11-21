@@ -1,5 +1,5 @@
 {% set name = "fairseq" %}
-{% set version = "0.9.0" %}
+{% set version = "0.10.1" %}
 
 
 package:
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 61206358b79f325ea0b46cfd8c95cdb81bfbcfb43cf12b47d1d5124ce7321d3b
+  sha256: 05b9e6bea4fc974b33e0ee5c154ec4069c6996be30c53d3ea8dd6d13113170f2
 
 build:
   number: 0
