@@ -42,7 +42,7 @@ requirements:
     - cffi
     - {{ pin_compatible('numpy') }}
     - regex
-    - sacrebleu >=1.4.12
+    - sacrebleu
     - cython
     - pytorch
     - tqdm
