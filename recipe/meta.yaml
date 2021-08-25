@@ -33,7 +33,7 @@ requirements:
   host:
     - python
     - pip
-    - numpy
+    - numpy >=1.17
     - cython
     - setuptools
 
