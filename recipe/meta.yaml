@@ -33,7 +33,7 @@ requirements:
   host:
     - python
     - pip
-    - numpy
+    - {{ pin_compatible('numpy') }}
     - cython
     - setuptools >=18.0
 
