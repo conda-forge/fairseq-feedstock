@@ -48,7 +48,7 @@ requirements:
     - pytorch
     - tqdm
     - dataclasses
-    - hydra-core >=1.0.7,<1.1
+    - hydra-core
 
 test:
   imports:
