@@ -40,7 +40,7 @@ requirements:
   run:
     - python
     - cffi
-    - {{ pin_compatible('numpy') }}
+    - numpy
     - regex
     - sacrebleu >=1.4.12
     - omegaconf <2.1
