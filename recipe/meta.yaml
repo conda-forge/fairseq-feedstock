@@ -44,7 +44,7 @@ requirements:
     - python
     - regex
     - sacrebleu >=1.4.12
-    - torch
+    - pytorch
     - tqdm
     - {{ pin_compatible('numpy') }}
 
