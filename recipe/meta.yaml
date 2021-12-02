@@ -45,6 +45,7 @@ requirements:
     - regex
     - sacrebleu >=1.4.12
     - pytorch
+    - pytorch-cpu # [win]
     - tqdm
     - {{ pin_compatible('numpy') }}
 
