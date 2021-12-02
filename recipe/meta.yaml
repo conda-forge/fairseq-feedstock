@@ -31,23 +31,22 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
-    - python
-    - pip
+    - cython
     - numpy
-    - cython
-    - setuptools
-
-  run:
+    - pip
     - python
+    - setuptools >=18.0
+  run:
     - cffi
-    - {{ pin_compatible('numpy') }}
-    - regex
-    - sacrebleu
     - cython
-    - pytorch
-    - tqdm
     - dataclasses
     - hydra-core
+    - python
+    - regex
+    - sacrebleu >=1.4.12
+    - torch
+    - tqdm
+    - {{ pin_compatible('numpy') }}
 
 test:
   imports:
@@ -71,6 +70,4 @@ about:
 extra:
   recipe-maintainers:
     - mxr-conda
-    - rluria14
-    - oblute
-    - ndmaxar
+    - d-cunningham
