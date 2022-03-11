@@ -47,9 +47,9 @@ requirements:
     - pytorch
     - tqdm
     - dataclasses
-    - torchaudio >=0.8.0
+    # - torchaudio >=0.8.0  # not available on conda-forge
     - omegaconf <2.1
-    - hydra-core >=1.0.7,<1.1
+    - hydra-core >=1.0.7
     - bitarray
 
 test:
