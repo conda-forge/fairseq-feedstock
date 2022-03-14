@@ -1,5 +1,5 @@
 {% set name = "fairseq" %}
-{% set version = "0.10.2" %}
+{% set version = "0.11.0" %}
 
 
 package:
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://github.com/pytorch/fairseq/archive/v{{ version }}.tar.gz
-  sha256: 4328a7cb5fe6aea874817a863eb7f1ace91d621bc504345e6d022ce64e065da0
+  sha256: 5d7baa8ffd4cd02e991f7b70785038c5ced0dbced41eea73129ab1d91b20c5dd
 
 build:
   number: 0
@@ -42,12 +42,15 @@ requirements:
     - cffi
     - {{ pin_compatible('numpy') }}
     - regex
-    - sacrebleu
+    - sacrebleu >=1.4.12
     - cython
     - pytorch
     - tqdm
     - dataclasses
-    - hydra-core
+    # - torchaudio >=0.8.0  # not available on conda-forge
+    - omegaconf
+    - hydra-core >=1.0.7
+    - bitarray
 
 test:
   imports:
