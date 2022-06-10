@@ -1,5 +1,5 @@
 {% set name = "fairseq" %}
-{% set version = "0.10.2" %}
+{% set version = "0.12.1" %}
 
 
 package:
@@ -8,10 +8,10 @@ package:
 
 source:
   url: https://github.com/pytorch/fairseq/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 4328a7cb5fe6aea874817a863eb7f1ace91d621bc504345e6d022ce64e065da0
+  sha256: 3583c9f600943609333e7c613b90c60d80c24e9e022089f3532627de2f55d2d8
 
 build:
-  number: 1
+  number: 0
   entry_points:
     - fairseq-eval-lm = fairseq_cli.eval_lm:cli_main
     - fairseq-generate = fairseq_cli.generate:cli_main
@@ -21,7 +21,7 @@ build:
     - fairseq-train = fairseq_cli.train:cli_main
     - fairseq-validate = fairseq_cli.validate:cli_main
   script: {{ PYTHON }} -m pip install . -vv
-  skip: True  # [win]
+  skip: true  # [win]
 
 requirements:
   build:
