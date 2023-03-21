@@ -15,6 +15,7 @@ build:
   entry_points:
     - fairseq-eval-lm = fairseq_cli.eval_lm:cli_main
     - fairseq-generate = fairseq_cli.generate:cli_main
+    - fairseq-hydra-train = fairseq_cli.hydra_train:cli_main
     - fairseq-interactive = fairseq_cli.interactive:cli_main
     - fairseq-preprocess = fairseq_cli.preprocess:cli_main
     - fairseq-score = fairseq_cli.score:cli_main
@@ -40,15 +41,16 @@ requirements:
 
   run:
     - python
-    - cffi
+    # - cython
+    - hydra-core >=1.0.7 #,<1.1
+    - omegaconf #<2.1
     - {{ pin_compatible('numpy') }}
     - regex
-    - sacrebleu
-    - cython
-    - pytorch
+    - sacrebleu >=1.4.12
+    - torch >=1.10.2
     - tqdm
-    - dataclasses
-    - hydra-core
+    - bitarray
+    - torchaudio >=0.8.0
 
 test:
   imports:
