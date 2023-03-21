@@ -47,10 +47,9 @@ requirements:
     - {{ pin_compatible('numpy') }}
     - regex
     - sacrebleu >=1.4.12
-    - torch >=1.10.2
+    - pytorch >=1.10.2
     - tqdm
     - bitarray
-    - torchaudio >=0.8.0
 
 test:
   imports:
