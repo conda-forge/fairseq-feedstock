@@ -23,6 +23,7 @@ build:
     - fairseq-validate = fairseq_cli.validate:cli_main
   script: {{ PYTHON }} -m pip install . -vv
   skip: true  # [win]
+  skip: true  # [py==38 and target_platform=='osx-arm64']
 
 requirements:
   build:
