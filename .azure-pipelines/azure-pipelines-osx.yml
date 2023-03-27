@@ -32,12 +32,6 @@ jobs:
       osx_arm64_python3.10.____cpythonpytorch1.13:
         CONFIG: osx_arm64_python3.10.____cpythonpytorch1.13
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_python3.8.____cpythonpytorch1.12:
-        CONFIG: osx_arm64_python3.8.____cpythonpytorch1.12
-        UPLOAD_PACKAGES: 'True'
-      osx_arm64_python3.8.____cpythonpytorch1.13:
-        CONFIG: osx_arm64_python3.8.____cpythonpytorch1.13
-        UPLOAD_PACKAGES: 'True'
       osx_arm64_python3.9.____cpythonpytorch1.12:
         CONFIG: osx_arm64_python3.9.____cpythonpytorch1.12
         UPLOAD_PACKAGES: 'True'

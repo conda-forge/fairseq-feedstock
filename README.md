@@ -125,20 +125,6 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>osx_arm64_python3.8.____cpythonpytorch1.12</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=10329&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/fairseq-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_python3.8.____cpythonpytorch1.12" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_arm64_python3.8.____cpythonpytorch1.13</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=10329&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/fairseq-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_python3.8.____cpythonpytorch1.13" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
               <td>osx_arm64_python3.9.____cpythonpytorch1.12</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=10329&branchName=main">
