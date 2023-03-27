@@ -11,7 +11,7 @@ source:
   sha256: f9e97dc0ff6a9f5c4f29fcf297c2fa4d16a2ca7f6dbd180286855e31e1cb3183
 
 build:
-  number: 0
+  number: 1
   entry_points:
     - fairseq-eval-lm = fairseq_cli.eval_lm:cli_main
     - fairseq-generate = fairseq_cli.generate:cli_main
@@ -23,6 +23,7 @@ build:
     - fairseq-validate = fairseq_cli.validate:cli_main
   script: {{ PYTHON }} -m pip install . -vv
   skip: true  # [win]
+  skip: true  # [py==38 and target_platform=='osx-arm64']
 
 requirements:
   build:
@@ -43,9 +44,8 @@ requirements:
     - pytorch
   run:
     - python
-    # - cython
-    - hydra-core >=1.0.7 #,<1.1
-    - omegaconf #<2.1
+    - hydra-core >=1.0.7
+    - omegaconf
     - {{ pin_compatible('numpy') }}
     - regex
     - sacrebleu >=1.4.12
