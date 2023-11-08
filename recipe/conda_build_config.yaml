@@ -1,4 +1,1 @@
-# NOTE(hadim): At least for this version we should build it for pytorch 1.12 as well and we can drop it and follow the c-f pytorch pins for the next one.
-pytorch:
-  - '1.12'
-  - '1.13'
+
