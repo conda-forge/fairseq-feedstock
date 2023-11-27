@@ -24,6 +24,9 @@ build:
   script: {{ PYTHON }} -m pip install . -vv
   skip: true  # [win]
   skip: true  # [py==38 and target_platform=='osx-arm64']
+  # fairseq still does not support python 3.11
+  # https://github.com/facebookresearch/fairseq/pull/5359/files
+  skip: true  # [py>=311]
 
 requirements:
   build:
