@@ -1,9 +1,8 @@
-{% set name = "fairseq" %}
 {% set version = "0.12.3" %}
 
 
 package:
-  name: {{ name|lower }}
+  name: fairseq
   version: {{ version }}
 
 source:
@@ -11,7 +10,7 @@ source:
   sha256: f9e97dc0ff6a9f5c4f29fcf297c2fa4d16a2ca7f6dbd180286855e31e1cb3183
 
 build:
-  number: 4
+  number: 5
   entry_points:
     - fairseq-eval-lm = fairseq_cli.eval_lm:cli_main
     - fairseq-generate = fairseq_cli.generate:cli_main
@@ -23,7 +22,6 @@ build:
     - fairseq-validate = fairseq_cli.validate:cli_main
   script: {{ PYTHON }} -m pip install . -vv
   skip: true  # [win]
-  skip: true  # [py==38 and target_platform=='osx-arm64']
   # fairseq still does not support python 3.11
   # https://github.com/facebookresearch/fairseq/pull/5359/files
   skip: true  # [py>=311]
@@ -52,7 +50,6 @@ requirements:
     - {{ pin_compatible('numpy') }}
     - regex
     - sacrebleu >=1.4.12
-    - pytorch >=1.10.2
     - tqdm
     - bitarray
 
