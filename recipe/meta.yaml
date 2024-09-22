@@ -34,7 +34,7 @@ requirements:
     - numpy                                  # [build_platform != target_platform]
     - pytorch                                # [build_platform != target_platform]
     - {{ compiler('c') }}
-    - {{ stdlib("c") }}
+    - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
   host:
     - python
