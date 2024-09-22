@@ -51,6 +51,7 @@ requirements:
     - {{ pin_compatible('numpy') }}
     - regex
     - sacrebleu >=1.4.12
+    - numpy >=1.22
     - tqdm
     - bitarray
 
