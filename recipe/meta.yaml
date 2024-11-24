@@ -10,7 +10,7 @@ source:
 
 build:
   noarch: python
-  number: 9
+  number: 10
   entry_points:
     - fairseq-eval-lm = fairseq_cli.eval_lm:cli_main
     - fairseq-generate = fairseq_cli.generate:cli_main
