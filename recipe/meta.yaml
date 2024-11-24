@@ -1,6 +1,5 @@
 {% set version = "0.12.3" %}
 
-
 package:
   name: fairseq
   version: {{ version }}
@@ -22,10 +21,6 @@ build:
     - fairseq-train = fairseq_cli.train:cli_main
     - fairseq-validate = fairseq_cli.validate:cli_main
   script: {{ PYTHON }} -m pip install . -vv
-  skip: true  # [win]
-  # fairseq still does not support python 3.11
-  # https://github.com/facebookresearch/fairseq/pull/5359/files
-  skip: true  # [py>=311]
 
 requirements:
   build:
@@ -38,7 +33,7 @@ requirements:
     - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
   host:
-    - python
+    - python {{ python_min }}
     - pip
     - numpy
     - cython
@@ -46,7 +41,7 @@ requirements:
     # It's required to build the CPP extensions.
     - pytorch
   run:
-    - python
+    - python >={{ python_min }}
     - hydra-core >=1.0.7
     - omegaconf
     - numpy >=1.22
@@ -67,6 +62,8 @@ test:
     - fairseq-score --help
     - fairseq-train --help
     - fairseq-validate --help
+  requires:
+    - python {{ python_min }}
 
 about:
   home: https://github.com/pytorch/fairseq
