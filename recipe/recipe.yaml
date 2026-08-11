@@ -65,6 +65,9 @@ tests:
       imports:
         - fairseq
         - fairseq.benchmark
+      # Preserve the v0 import-only test. Upstream's legacy package metadata
+      # declares requirements that this established conda recipe does not use.
+      pip_check: false
   - script:
       - fairseq-eval-lm --help
       - fairseq-generate --help
