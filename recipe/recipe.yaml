@@ -1,0 +1,94 @@
+schema_version: 1
+
+context:
+  version: "0.12.3"
+
+package:
+  name: fairseq
+  version: ${{ version }}
+
+source:
+  url: https://github.com/pytorch/fairseq/archive/refs/tags/v${{ version }}.tar.gz
+  sha256: f9e97dc0ff6a9f5c4f29fcf297c2fa4d16a2ca7f6dbd180286855e31e1cb3183
+
+build:
+  number: 18
+  skip:
+    - win
+    # fairseq still does not support Python 3.11.
+    # https://github.com/facebookresearch/fairseq/pull/5359/files
+    - match(python, ">=3.11")
+  script: bash "${RECIPE_DIR}/build.sh"
+  python:
+    entry_points:
+      - fairseq-eval-lm = fairseq_cli.eval_lm:cli_main
+      - fairseq-generate = fairseq_cli.generate:cli_main
+      - fairseq-hydra-train = fairseq_cli.hydra_train:cli_main
+      - fairseq-interactive = fairseq_cli.interactive:cli_main
+      - fairseq-preprocess = fairseq_cli.preprocess:cli_main
+      - fairseq-score = fairseq_cli.score:cli_main
+      - fairseq-train = fairseq_cli.train:cli_main
+      - fairseq-validate = fairseq_cli.validate:cli_main
+
+requirements:
+  build:
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - cython
+        - numpy
+        - pytorch
+    - ${{ compiler("c") }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler("cxx") }}
+  host:
+    - python
+    - pip
+    - numpy
+    - cython
+    - setuptools
+    # Required to build the C++ extensions.
+    - pytorch
+  run:
+    - python
+    - hydra-core >=1.0.7
+    - omegaconf
+    - numpy >=1.22
+    - regex
+    - sacrebleu >=1.4.12
+    - tqdm
+    - bitarray
+
+tests:
+  - python:
+      imports:
+        - fairseq
+        - fairseq.benchmark
+      # Preserve the v0 import-only test. Upstream's legacy package metadata
+      # declares requirements that this established conda recipe does not use.
+      pip_check: false
+  - script:
+      - fairseq-eval-lm --help
+      - fairseq-generate --help
+      - fairseq-interactive --help
+      - fairseq-preprocess --help
+      - fairseq-score --help
+      - fairseq-train --help
+      - fairseq-validate --help
+
+about:
+  homepage: https://github.com/pytorch/fairseq
+  repository: https://github.com/pytorch/fairseq
+  summary: Facebook AI Research Sequence-to-Sequence Toolkit
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - mxr-conda
+    - rluria14
+    - oblute
+    - ndmaxar
+    - sdvillal
+    - jeongseok-meta
