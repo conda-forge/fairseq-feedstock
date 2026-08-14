@@ -1,4 +1,5 @@
 build_platform:
+  linux_aarch64: linux_64
   osx_arm64: osx_64
 conda_build:
   pkg_format: '2'
@@ -7,4 +8,8 @@ conda_forge_output_validation: true
 github:
   branch_name: main
   tooling_branch_name: main
+provider:
+  # Add linux_ppc64le when conda-forge PyTorch publishes PPC64LE packages.
+  # https://anaconda.org/conda-forge/pytorch/files
+  linux_aarch64: default
 test: native_and_emulated

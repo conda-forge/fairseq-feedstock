@@ -12,8 +12,10 @@ source:
   sha256: f9e97dc0ff6a9f5c4f29fcf297c2fa4d16a2ca7f6dbd180286855e31e1cb3183
 
 build:
-  number: 18
+  number: 19
   skip:
+    # Remove when upstream supports building its C++ extensions on Windows.
+    # https://github.com/facebookresearch/fairseq/issues/5620
     - win
     # fairseq still does not support Python 3.11.
     # https://github.com/facebookresearch/fairseq/pull/5359/files
@@ -38,7 +40,9 @@ requirements:
         - cross-python_${{ target_platform }}
         - cython
         - numpy
-        - pytorch
+        # Build the CPU-only extensions against CPU PyTorch. Keep the runtime
+        # requirement flavor-neutral so users can still install CUDA PyTorch.
+        - pytorch ${{ pytorch }}.* *cpu*
     - ${{ compiler("c") }}
     - ${{ stdlib("c") }}
     - ${{ compiler("cxx") }}
@@ -49,7 +53,7 @@ requirements:
     - cython
     - setuptools
     # Required to build the C++ extensions.
-    - pytorch
+    - pytorch ${{ pytorch }}.* *cpu*
   run:
     - python
     - hydra-core >=1.0.7
@@ -61,14 +65,14 @@ requirements:
     - bitarray
 
 tests:
-  - python:
-      imports:
-        - fairseq
-        - fairseq.benchmark
-      # Preserve the v0 import-only test. Upstream's legacy package metadata
-      # declares requirements that this established conda recipe does not use.
-      pip_check: false
-  - script:
+  - requirements:
+      run:
+        - pytorch ${{ pytorch }}.* *cpu*
+    script:
+      # Preserve the established import-only coverage. Upstream's legacy
+      # package metadata declares requirements this recipe does not use.
+      - python -c "import fairseq"
+      - python -c "import fairseq.benchmark"
       - fairseq-eval-lm --help
       - fairseq-generate --help
       - fairseq-interactive --help
