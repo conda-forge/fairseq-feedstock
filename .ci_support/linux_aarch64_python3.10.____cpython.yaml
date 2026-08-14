@@ -27,7 +27,7 @@ python:
 pytorch:
 - '2.13'
 target_platform:
-- linux-64
+- linux-aarch64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
