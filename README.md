@@ -1,7 +1,7 @@
 About fairseq-feedstock
 =======================
 
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/fairseq-feedstock/blob/main/LICENSE.txt)
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/fairseq-feedstock-audit-feedstock/blob/main/LICENSE.txt)
 
 Home: https://github.com/pytorch/fairseq
 
@@ -18,8 +18,8 @@ Current build status
 <table><tr>
     <td>GitHub Actions</td>
     <td>
-      <a href="https://github.com/conda-forge/fairseq-feedstock/actions/workflows/conda-build.yml">
-        <img src="https://github.com/conda-forge/fairseq-feedstock/actions/workflows/conda-build.yml/badge.svg?event=push&branch=main">
+      <a href="https://github.com/conda-forge/fairseq-feedstock-audit-feedstock/actions/workflows/conda-build.yml">
+        <img src="https://github.com/conda-forge/fairseq-feedstock-audit-feedstock/actions/workflows/conda-build.yml/badge.svg?event=push&branch=main">
       </a>
     </td>
   </tr>
@@ -29,8 +29,8 @@ Current build status
     <td>
       <details>
         <summary>
-          <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=10329&branchName=main">
-            <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/fairseq-feedstock?branchName=main">
+          <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=None&branchName=main">
+            <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/fairseq-feedstock-audit-feedstock?branchName=main">
           </a>
         </summary>
         <table>
@@ -38,8 +38,8 @@ Current build status
           <tbody><tr>
               <td>osx_64_python3.10.____cpython</td>
               <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=10329&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/fairseq-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_python3.10.____cpython" alt="variant">
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=None&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/fairseq-feedstock-audit-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_python3.10.____cpython" alt="variant">
                 </a>
               </td>
             </tr>
