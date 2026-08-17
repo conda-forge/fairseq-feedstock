@@ -10,17 +10,23 @@ package:
 source:
   url: https://github.com/pytorch/fairseq/archive/refs/tags/v${{ version }}.tar.gz
   sha256: f9e97dc0ff6a9f5c4f29fcf297c2fa4d16a2ca7f6dbd180286855e31e1cb3183
+  patches:
+    # The upstream repository is archived. Remove if packaging a maintained
+    # fork or release that supports MSVC and avoids privileged symlink creation.
+    # https://github.com/facebookresearch/fairseq/issues/5620
+    - patches/0001-support-windows-builds.patch
 
 build:
-  number: 19
+  number: 20
   skip:
-    # Remove when upstream supports building its C++ extensions on Windows.
-    # https://github.com/facebookresearch/fairseq/issues/5620
-    - win
     # fairseq still does not support Python 3.11.
     # https://github.com/facebookresearch/fairseq/pull/5359/files
     - match(python, ">=3.11")
-  script: bash "${RECIPE_DIR}/build.sh"
+  script:
+    - if: win
+      then: call "%RECIPE_DIR%\\build.bat"
+    - if: unix
+      then: bash "${RECIPE_DIR}/build.sh"
   python:
     entry_points:
       - fairseq-eval-lm = fairseq_cli.eval_lm:cli_main
