@@ -1,0 +1,60 @@
+From: conda-forge <conda-forge@users.noreply.github.com>
+Subject: [PATCH] Support building on Windows
+
+Select MSVC-compatible flags for the standalone C++/Cython extensions. During
+wheel builds, copy the examples tree on Windows because creating a directory
+symlink requires privileges that normal build users do not have. Ignore links
+inside that tree because the source archive contains Unix-only link targets.
+
+diff --git a/setup.py b/setup.py
+index d6fa787..79a0a11 100644
+--- a/setup.py
++++ b/setup.py
+@@ -6,5 +6,6 @@
+ 
+ import os
++import shutil
+ import subprocess
+ import sys
+ 
+@@ -34,6 +35,8 @@ with open("README.md") as f:
+ 
+ if sys.platform == "darwin":
+     extra_compile_args = ["-stdlib=libc++", "-O3"]
++elif sys.platform == "win32":
++    extra_compile_args = ["/std:c++17", "/O2"]
+ else:
+     extra_compile_args = ["-std=c++11", "-O3"]
+ 
+@@ -237,11 +240,24 @@ def get_files(path, relative_to="fairseq"):
+ 
+ 
+ if __name__ == "__main__":
++    copied_fairseq_examples = False
+     try:
+         # symlink examples into fairseq package so package_data accepts them
+         fairseq_examples = os.path.join("fairseq", "examples")
+         if "build_ext" not in sys.argv[1:] and not os.path.exists(fairseq_examples):
+-            os.symlink(os.path.join("..", "examples"), fairseq_examples)
++            if sys.platform == "win32":
++                shutil.copytree(
++                    "examples",
++                    fairseq_examples,
++                    ignore=lambda path, names: [
++                        name
++                        for name in names
++                        if os.path.islink(os.path.join(path, name))
++                    ],
++                )
++                copied_fairseq_examples = True
++            else:
++                os.symlink(os.path.join("..", "examples"), fairseq_examples)
+ 
+         package_data = {
+             "fairseq": (
+@@ -253,3 +269,5 @@ if __name__ == "__main__":
+     finally:
+         if "build_ext" not in sys.argv[1:] and os.path.islink(fairseq_examples):
+             os.unlink(fairseq_examples)
++        elif copied_fairseq_examples:
++            shutil.rmtree(fairseq_examples)
