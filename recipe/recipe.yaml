@@ -15,13 +15,13 @@ source:
     # fork or release that supports MSVC and avoids privileged symlink creation.
     # https://github.com/facebookresearch/fairseq/issues/5620
     - patches/0001-support-windows-builds.patch
+    # Python 3.11 rejects instance defaults for the nested config dataclasses,
+    # and fairseq#5359 was never merged. Remove if packaging a maintained fork
+    # or release that supports Python 3.11+.
+    - patches/0002-support-python-3.11.patch
 
 build:
   number: 21
-  skip:
-    # fairseq still does not support Python 3.11.
-    # https://github.com/facebookresearch/fairseq/pull/5359/files
-    - match(python, ">=3.11")
   script:
     - if: win
       then: call "%RECIPE_DIR%\\build.bat"
