@@ -6,6 +6,9 @@ which includes the nested config dataclasses. Build those defaults with
 default_factory and let hydra_init use the factory. Based on
 facebookresearch/fairseq#5359, which did not update hydra_init.
 
+Python 3.14 spells Optional[X] as "X | None", so interpret_dc_type no longer
+unwrapped it and argparse 3.14 rejects the non-callable type.
+
 diff --git a/fairseq/dataclass/configs.py b/fairseq/dataclass/configs.py
 index 5fdfab3..f64299c 100644
 --- a/fairseq/dataclass/configs.py
@@ -67,6 +70,19 @@ index 5a7784b..ad889b7 100644
          try:
              cs.store(name=k, node=v)
          except BaseException:
+diff --git a/fairseq/dataclass/utils.py b/fairseq/dataclass/utils.py
+index 69b7796..43fd41b 100644
+--- a/fairseq/dataclass/utils.py
++++ b/fairseq/dataclass/utils.py
+@@ -45,7 +45,7 @@ def interpret_dc_type(field_type):
+     typestring = str(field_type)
+     if re.match(
+         r"(typing.|^)Union\[(.*), NoneType\]$", typestring
+-    ) or typestring.startswith("typing.Optional"):
++    ) or typestring.startswith("typing.Optional") or typestring.endswith(" | None"):
+         return field_type.__args__[0]
+     return field_type
+ 
 diff --git a/fairseq/models/transformer/transformer_config.py b/fairseq/models/transformer/transformer_config.py
 index 4650de2..041b45b 100644
 --- a/fairseq/models/transformer/transformer_config.py
