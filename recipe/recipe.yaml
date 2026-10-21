@@ -17,7 +17,7 @@ source:
     - patches/0001-support-windows-builds.patch
 
 build:
-  number: 20
+  number: 21
   skip:
     # fairseq still does not support Python 3.11.
     # https://github.com/facebookresearch/fairseq/pull/5359/files
