@@ -1,0 +1,114 @@
+From: conda-forge <conda-forge@users.noreply.github.com>
+Subject: [PATCH] Support Python 3.11+
+
+Python 3.11 rejects dataclass fields whose default is an unhashable instance,
+which includes the nested config dataclasses. Build those defaults with
+default_factory and let hydra_init use the factory. Based on
+facebookresearch/fairseq#5359, which did not update hydra_init.
+
+Python 3.14 spells Optional[X] as "X | None", so interpret_dc_type no longer
+unwrapped it and argparse 3.14 rejects the non-callable type.
+
+diff --git a/fairseq/dataclass/configs.py b/fairseq/dataclass/configs.py
+index 5fdfab3..f64299c 100644
+--- a/fairseq/dataclass/configs.py
++++ b/fairseq/dataclass/configs.py
+@@ -1125,16 +1125,16 @@ class EMAConfig(FairseqDataclass):
+ 
+ @dataclass
+ class FairseqConfig(FairseqDataclass):
+-    common: CommonConfig = CommonConfig()
+-    common_eval: CommonEvalConfig = CommonEvalConfig()
+-    distributed_training: DistributedTrainingConfig = DistributedTrainingConfig()
+-    dataset: DatasetConfig = DatasetConfig()
+-    optimization: OptimizationConfig = OptimizationConfig()
+-    checkpoint: CheckpointConfig = CheckpointConfig()
+-    bmuf: FairseqBMUFConfig = FairseqBMUFConfig()
+-    generation: GenerationConfig = GenerationConfig()
+-    eval_lm: EvalLMConfig = EvalLMConfig()
+-    interactive: InteractiveConfig = InteractiveConfig()
++    common: CommonConfig = field(default_factory=CommonConfig)
++    common_eval: CommonEvalConfig = field(default_factory=CommonEvalConfig)
++    distributed_training: DistributedTrainingConfig = field(default_factory=DistributedTrainingConfig)
++    dataset: DatasetConfig = field(default_factory=DatasetConfig)
++    optimization: OptimizationConfig = field(default_factory=OptimizationConfig)
++    checkpoint: CheckpointConfig = field(default_factory=CheckpointConfig)
++    bmuf: FairseqBMUFConfig = field(default_factory=FairseqBMUFConfig)
++    generation: GenerationConfig = field(default_factory=GenerationConfig)
++    eval_lm: EvalLMConfig = field(default_factory=EvalLMConfig)
++    interactive: InteractiveConfig = field(default_factory=InteractiveConfig)
+     model: Any = MISSING
+     task: Any = None
+     criterion: Any = None
+@@ -1143,4 +1143,4 @@ class FairseqConfig(FairseqDataclass):
+     scoring: Any = None
+     bpe: Any = None
+     tokenizer: Any = None
+-    ema: EMAConfig = EMAConfig()
++    ema: EMAConfig = field(default_factory=EMAConfig)
+diff --git a/fairseq/dataclass/initialize.py b/fairseq/dataclass/initialize.py
+index 5a7784b..ad889b7 100644
+--- a/fairseq/dataclass/initialize.py
++++ b/fairseq/dataclass/initialize.py
+@@ -5,6 +5,7 @@
+ """isort:skip_file"""
+ 
+ import logging
++from dataclasses import _MISSING_TYPE
+ from hydra.core.config_store import ConfigStore
+ from fairseq.dataclass.configs import FairseqConfig
+ from omegaconf import DictConfig, OmegaConf
+@@ -19,7 +20,10 @@ def hydra_init(cfg_name="config") -> None:
+     cs.store(name=f"{cfg_name}", node=FairseqConfig)
+ 
+     for k in FairseqConfig.__dataclass_fields__:
+-        v = FairseqConfig.__dataclass_fields__[k].default
++        f = FairseqConfig.__dataclass_fields__[k]
++        v = f.default
++        if not isinstance(f.default_factory, _MISSING_TYPE):
++            v = f.default_factory()
+         try:
+             cs.store(name=k, node=v)
+         except BaseException:
+diff --git a/fairseq/dataclass/utils.py b/fairseq/dataclass/utils.py
+index 69b7796..43fd41b 100644
+--- a/fairseq/dataclass/utils.py
++++ b/fairseq/dataclass/utils.py
+@@ -45,7 +45,7 @@ def interpret_dc_type(field_type):
+     typestring = str(field_type)
+     if re.match(
+         r"(typing.|^)Union\[(.*), NoneType\]$", typestring
+-    ) or typestring.startswith("typing.Optional"):
++    ) or typestring.startswith("typing.Optional") or typestring.endswith(" | None"):
+         return field_type.__args__[0]
+     return field_type
+ 
+diff --git a/fairseq/models/transformer/transformer_config.py b/fairseq/models/transformer/transformer_config.py
+index 4650de2..041b45b 100644
+--- a/fairseq/models/transformer/transformer_config.py
++++ b/fairseq/models/transformer/transformer_config.py
+@@ -111,13 +111,13 @@ class TransformerConfig(FairseqDataclass):
+         },
+     )
+     adaptive_input: bool = False
+-    encoder: EncDecBaseConfig = EncDecBaseConfig()
++    encoder: EncDecBaseConfig = field(default_factory=EncDecBaseConfig)
+     # TODO should really be in the encoder config
+     max_source_positions: int = field(
+         default=DEFAULT_MAX_SOURCE_POSITIONS,
+         metadata={"help": "Maximum input length supported by the encoder"},
+     )
+-    decoder: DecoderConfig = DecoderConfig()
++    decoder: DecoderConfig = field(default_factory=DecoderConfig)
+     # TODO should really be in the decoder config
+     max_target_positions: int = field(
+         default=DEFAULT_MAX_TARGET_POSITIONS,
+@@ -197,7 +197,7 @@ class TransformerConfig(FairseqDataclass):
+         default=False, metadata={"help": "perform cross+self-attention"}
+     )
+     # args for Training with Quantization Noise for Extreme Model Compression ({Fan*, Stock*} et al., 2020)
+-    quant_noise: QuantNoiseConfig = field(default=QuantNoiseConfig())
++    quant_noise: QuantNoiseConfig = field(default_factory=QuantNoiseConfig)
+     min_params_to_wrap: int = field(
+         default=DEFAULT_MIN_PARAMS_TO_WRAP,
+         metadata={
